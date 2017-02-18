@@ -49,14 +49,29 @@ namespace UnitConverter.Persistence
         private static double getMaster(string inputUnit, out string masterUnit)
         {
             var db = new UnitConverterDbEntities();
-            // Need to get units from the table here
-            if (db.tblUnits.FirstOrDefault(p => p.UnitName == inputUnit) != null)
+            var unitsList = db.tblUnits.FirstOrDefault(p => p.UnitName == inputUnit);
+
+            if (unitsList != null)
             {
-                masterUnit = db.tblUnits.FirstOrDefault(p => p.UnitName == inputUnit).MasterUnit;
-                return db.tblUnits.FirstOrDefault(p => p.UnitName == inputUnit).ConversionFactor;
+                masterUnit = unitsList.MasterUnit;
+                return unitsList.ConversionFactor;
             }
             masterUnit = "a";
             return 2;
+        }
+
+        public static double ConvertToOutputUnit(string masterUnit, double convertedMasterValue, string outputUnit)
+        {
+            string checkMaster = "";
+            double conversion = ConvertToMasterUnit(outputUnit, 1, out checkMaster);
+            if(checkMaster == masterUnit) {
+                return convertedMasterValue / conversion;
+            }
+            else
+            {
+                return 1;
+            }
+
         }
 
     }
