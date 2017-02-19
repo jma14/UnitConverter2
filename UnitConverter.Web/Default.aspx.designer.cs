@@ -49,21 +49,66 @@ namespace UnitConverter.Web {
         protected global::System.Web.UI.WebControls.RadioButtonList toUnitsRadioList;
         
         /// <summary>
-        /// okButton control.
+        /// convertButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button okButton;
+        protected global::System.Web.UI.WebControls.Button convertButton;
         
         /// <summary>
-        /// resultLabel control.
+        /// convertedLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label resultLabel;
+        protected global::System.Web.UI.WebControls.Label convertedLabel;
+        
+        /// <summary>
+        /// customFromUnitTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox customFromUnitTextBox;
+        
+        /// <summary>
+        /// customFromFactorTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox customFromFactorTextBox;
+        
+        /// <summary>
+        /// customToRadioList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList customToRadioList;
+        
+        /// <summary>
+        /// addConversion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button addConversion;
+        
+        /// <summary>
+        /// customConversionLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label customConversionLabel;
     }
 }

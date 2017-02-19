@@ -18,7 +18,7 @@ namespace UnitConverter.Domain
             CreateUnit("hr", "hr", 1);
         }
 
-        private static void CreateUnit(string unitName, string masterUnit, double conversionFactor)
+        public static void CreateUnit(string unitName, string masterUnit, double conversionFactor)
         {
             DTO.UnitDTO newUnit = new DTO.UnitDTO();
             newUnit.UnitId = Guid.NewGuid();
@@ -38,14 +38,19 @@ namespace UnitConverter.Domain
             return Persistence.UnitRepository.ConvertToMasterUnit(inputUnit, inputValue, out masterUnit);
         }
 
-        public static double ConvertToToUnit(string masterUnit, double convertedMasterValue, string outputUnit)
+        public static double ConvertToToUnit(string masterUnit, double convertedMasterValue, string toUnit)
         {
-            return Persistence.UnitRepository.ConvertToOutputUnit(masterUnit, convertedMasterValue, outputUnit);
+            return Persistence.UnitRepository.ConvertToToUnit(masterUnit, convertedMasterValue, toUnit);
         }
 
         public static List<string> GetUnitsForRadio()
         {
             return Persistence.UnitRepository.GetUnitsForRadio();
+        }
+
+        public static List<string> GetUnitsForCustomRadio()
+        {
+            return Persistence.UnitRepository.GetUnitsForCustomRadio();
         }
     }
 }

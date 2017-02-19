@@ -70,7 +70,7 @@ namespace UnitConverter.Persistence
             return 2;
         }
 
-        public static double ConvertToOutputUnit(string masterUnit, double convertedMasterValue, string toUnit)
+        public static double ConvertToToUnit(string masterUnit, double convertedMasterValue, string toUnit)
         {
             string checkMaster = "";
             double conversion = ConvertToMasterUnit(toUnit, 1, out checkMaster);
@@ -89,6 +89,18 @@ namespace UnitConverter.Persistence
             var db = new UnitConverterDbEntities();
             var unitsList = db.tblUnits.OrderBy(p => p.MasterUnit).Select(p => p.UnitName).ToList();
             return unitsList;
+        }
+
+        public static List<string> GetUnitsForCustomRadio()
+        {
+            var db = new UnitConverterDbEntities();
+            var unitList = new List<string>();
+            foreach (var item in db.tblUnits)
+            {
+                if (!unitList.Contains(item.MasterUnit))
+                    unitList.Add(item.MasterUnit);
+            }
+            return unitList;
         }
 
     }

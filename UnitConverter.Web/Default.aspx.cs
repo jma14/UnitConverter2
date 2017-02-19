@@ -14,9 +14,22 @@ namespace UnitConverter.Web
             if(!Page.IsPostBack)
             {
                 Domain.UnitManager.ClearUnits();
-                Domain.UnitManager.CreateUnits();
-                getRadioList(fromUnitsRadioList);
-                getRadioList(toUnitsRadioList);
+                refreshLists();
+            }
+        }
+
+        private void getCustomRadioList()
+        {
+            customToRadioList.Items.Clear();
+            List<string> unitsList = Domain.UnitManager.GetUnitsForCustomRadio();
+            foreach (var units in unitsList)
+            {
+                customToRadioList.Items.Add(new ListItem { Text = units, Value = units });
+            }
+            if (customToRadioList != null)
+            {
+                customToRadioList.Items[0].Selected = true;
+                customToRadioList.DataBind();
             }
         }
 
@@ -29,8 +42,10 @@ namespace UnitConverter.Web
                 radioList.Items.Add(new ListItem { Text = units, Value = units });
             }
             if (radioList != null)
+            {
                 radioList.Items[0].Selected = true;
-            radioList.DataBind();
+                radioList.DataBind();
+            }
         }
 
 
@@ -43,7 +58,7 @@ namespace UnitConverter.Web
         {
             double fromValue;
             string fromUnit = getFromInfo(out fromValue);
-
+            
             string masterUnit;
             double convertedMasterValue = Domain.UnitManager.ConvertToMasterUnit(fromUnit, fromValue, out masterUnit);
 
@@ -52,18 +67,18 @@ namespace UnitConverter.Web
             double convertedToValue = Domain.UnitManager.ConvertToToUnit(masterUnit, convertedMasterValue, toUnit);
             if (convertedToValue == -1)
             {
-                resultLabel.Text = "Invalid Conversion";
+                convertedLabel.Text = "Invalid Conversion";
                 return;
             }
 
-            resultLabel.Text = String.Format("{0:0.0000} {1}", convertedToValue, toUnit);
+            convertedLabel.Text = String.Format("{0:0.0000} {1}", convertedToValue, toUnit);
         }
 
         private string getFromInfo(out double fromValue)
         {
             if (!double.TryParse(inputValueTextBox.Text, out fromValue))
             {
-                resultLabel.Text = "Invalid input";
+                convertedLabel.Text = "Invalid input";
                 return "";
             }
             else
@@ -71,6 +86,68 @@ namespace UnitConverter.Web
                 return fromUnitsRadioList.SelectedItem.Text;
             }
             
+        }
+
+        protected void addConversionButton_Click(object sender, EventArgs e)
+        {
+
+            addCustomConversion();
+        }
+
+        private void addCustomConversion()
+        {
+            string customUnit = getCustomUnit();
+            if (customUnit == "-1")
+                return;
+
+            double customConversionFactor = getCustomFromValue();
+            if (customConversionFactor == -1)
+                return;
+            
+
+            string customMasterUnit = customToRadioList.SelectedItem.Text;
+
+            Domain.UnitManager.CreateUnit(customUnit, customMasterUnit, customConversionFactor);
+
+            refreshLists();
+            customConversionLabel.Text = String.Format("{0} - {1} - {2}", customConversionFactor, customUnit, customMasterUnit);
+        }
+
+        private string getCustomUnit()
+        {
+            double dummy;
+            if ((customFromUnitTextBox.Text.Trim().Length == 0)
+                || (double.TryParse(customFromUnitTextBox.Text.Trim(), out dummy)))
+            {
+                customConversionLabel.Text = "Invalid Unit";
+                return "-1";
+            }
+            else
+            {
+                return customFromUnitTextBox.Text.Trim();
+            }
+        }
+
+        private double getCustomFromValue()
+        {
+            double customFromValue;
+            if (!double.TryParse(customFromFactorTextBox.Text, out customFromValue))
+            {
+                customConversionLabel.Text = "Invalid Entry";
+                return -1;
+            }
+            else
+            {
+                return customFromValue;
+            }
+        }
+
+        private void refreshLists()
+        {
+            Domain.UnitManager.CreateUnits();
+            getRadioList(fromUnitsRadioList);
+            getRadioList(toUnitsRadioList);
+            getCustomRadioList();
         }
     }
 }
