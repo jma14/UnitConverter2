@@ -70,12 +70,16 @@ namespace UnitConverter.Persistence
             return 2;
         }
 
-        public static double ConvertToToUnit(string masterUnit, double convertedMasterValue, string toUnit)
+        public static double ConvertToToUnit(string fromUnit, double fromValue, string toUnit)
         {
-            string checkMaster = "";
-            double conversion = ConvertToMasterUnit(toUnit, 1, out checkMaster);
-            if(checkMaster == masterUnit) {
-                return convertedMasterValue / conversion;
+            string masterFromUnit;
+            double convertFrom = ConvertToMasterUnit(fromUnit, fromValue, out masterFromUnit);
+
+            string masterToUnit;
+            double convertTo = ConvertToMasterUnit(toUnit, 1, out masterToUnit);
+
+            if(masterFromUnit == masterToUnit) {
+                return convertFrom / convertTo;
             }
             else
             {

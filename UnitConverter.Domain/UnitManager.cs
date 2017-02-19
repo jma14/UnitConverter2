@@ -33,14 +33,9 @@ namespace UnitConverter.Domain
             Persistence.UnitRepository.ClearUnits();
         }
 
-        public static double ConvertToMasterUnit(string inputUnit, double inputValue, out string masterUnit)
+        public static double ConvertToToUnit(string fromUnit, double fromValue, string toUnit)
         {
-            return Persistence.UnitRepository.ConvertToMasterUnit(inputUnit, inputValue, out masterUnit);
-        }
-
-        public static double ConvertToToUnit(string masterUnit, double convertedMasterValue, string toUnit)
-        {
-            return Persistence.UnitRepository.ConvertToToUnit(masterUnit, convertedMasterValue, toUnit);
+            return Persistence.UnitRepository.ConvertToToUnit(fromUnit, fromValue, toUnit);
         }
 
         public static List<string> GetUnitsForRadio()

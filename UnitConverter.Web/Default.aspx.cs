@@ -58,13 +58,10 @@ namespace UnitConverter.Web
         {
             double fromValue;
             string fromUnit = getFromInfo(out fromValue);
-            
-            string masterUnit;
-            double convertedMasterValue = Domain.UnitManager.ConvertToMasterUnit(fromUnit, fromValue, out masterUnit);
 
             string toUnit = toUnitsRadioList.SelectedItem.Text;
 
-            double convertedToValue = Domain.UnitManager.ConvertToToUnit(masterUnit, convertedMasterValue, toUnit);
+            double convertedToValue = Domain.UnitManager.ConvertToToUnit(fromUnit, fromValue, toUnit);
             if (convertedToValue == -1)
             {
                 convertedLabel.Text = "Invalid Conversion";
