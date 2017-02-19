@@ -11,60 +11,66 @@ namespace UnitConverter.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if(!Page.IsPostBack)
+            {
+                Domain.UnitManager.ClearUnits();
+                Domain.UnitManager.CreateUnits();
+                getRadioList(fromUnitsRadioList);
+                getRadioList(toUnitsRadioList);
+            }
         }
+
+        private void getRadioList(RadioButtonList radioList)
+        {
+            radioList.Items.Clear();
+            List<string> unitsList = Domain.UnitManager.GetUnitsForRadio();
+            foreach (var units in unitsList)
+            {
+                radioList.Items.Add(new ListItem { Text = units, Value = units });
+            }
+            if (radioList != null)
+                radioList.Items[0].Selected = true;
+            radioList.DataBind();
+        }
+
 
         protected void convertButton_Click(object sender, EventArgs e)
         {
-            Domain.UnitManager.CreateUnits();
-            double inputValue = 0;
-            if(!double.TryParse(inputValueTextBox.Text, out inputValue))
+            performConversion();
+        }
+
+        private void performConversion()
+        {
+            double fromValue;
+            string fromUnit = getFromInfo(out fromValue);
+
+            string masterUnit;
+            double convertedMasterValue = Domain.UnitManager.ConvertToMasterUnit(fromUnit, fromValue, out masterUnit);
+
+            string toUnit = toUnitsRadioList.SelectedItem.Text;
+
+            double convertedToValue = Domain.UnitManager.ConvertToToUnit(masterUnit, convertedMasterValue, toUnit);
+            if (convertedToValue == -1)
             {
-                resultLabel.Text = "Invalid input";
+                resultLabel.Text = "Invalid Conversion";
                 return;
             }
 
-            string inputUnit = getInputUnit();
-
-            string masterUnit;
-            double convertedMasterValue = Domain.UnitManager.ConvertToMasterUnit(inputUnit, inputValue, out masterUnit);
-
-            string outputUnit = getOutputUnit();
-
-            double convertedOutputValue = Domain.UnitManager.ConvertToOutputUnit(masterUnit, convertedMasterValue, outputUnit);
-            resultLabel.Text = String.Format("{0:0.000} {1}", convertedOutputValue, outputUnit);
+            resultLabel.Text = String.Format("{0:0.0000} {1}", convertedToValue, toUnit);
         }
 
-        private string getInputUnit()
+        private string getFromInfo(out double fromValue)
         {
-            if (inInputRadioButton.Checked == true)
+            if (!double.TryParse(inputValueTextBox.Text, out fromValue))
             {
-                return "in";
-            }
-            else if (mmInputRadioButton.Checked == true)
-            {
-                return "mm";
+                resultLabel.Text = "Invalid input";
+                return "";
             }
             else
             {
-                return "m";
+                return fromUnitsRadioList.SelectedItem.Text;
             }
-        }
-
-        private string getOutputUnit()
-        {
-            if (inOutputRadioButton.Checked == true)
-            {
-                return "in";
-            }
-            else if (mmOutputRadioButton.Checked == true)
-            {
-                return "mm";
-            }
-            else
-            {
-                return "m";
-            }
+            
         }
     }
 }

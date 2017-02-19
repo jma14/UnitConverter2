@@ -13,6 +13,9 @@ namespace UnitConverter.Domain
             CreateUnit("mm", "m", .001);
             CreateUnit("in", "m", .0003937);
             CreateUnit("m", "m", 1);
+            CreateUnit("sec", "hr", .000277777);
+            CreateUnit("min", "hr", .0166666);
+            CreateUnit("hr", "hr", 1);
         }
 
         private static void CreateUnit(string unitName, string masterUnit, double conversionFactor)
@@ -25,14 +28,24 @@ namespace UnitConverter.Domain
             Persistence.UnitRepository.CreateUnit(newUnit);
         }
 
+        public static void ClearUnits()
+        {
+            Persistence.UnitRepository.ClearUnits();
+        }
+
         public static double ConvertToMasterUnit(string inputUnit, double inputValue, out string masterUnit)
         {
             return Persistence.UnitRepository.ConvertToMasterUnit(inputUnit, inputValue, out masterUnit);
         }
 
-        public static double ConvertToOutputUnit(string masterUnit, double convertedMasterValue, string outputUnit)
+        public static double ConvertToToUnit(string masterUnit, double convertedMasterValue, string outputUnit)
         {
             return Persistence.UnitRepository.ConvertToOutputUnit(masterUnit, convertedMasterValue, outputUnit);
+        }
+
+        public static List<string> GetUnitsForRadio()
+        {
+            return Persistence.UnitRepository.GetUnitsForRadio();
         }
     }
 }

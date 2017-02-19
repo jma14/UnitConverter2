@@ -19,6 +19,16 @@ namespace UnitConverter.Persistence
             }
         }
 
+        public static void ClearUnits()
+        {
+            var db = new UnitConverterDbEntities();
+            foreach (var tblItem in db.tblUnits)
+            {
+                db.tblUnits.Remove(tblItem);
+            }
+            db.SaveChanges();
+        }
+
         private static tblUnit convertToEntity(DTO.UnitDTO unitDTO)
         {
             var dbUnit = new tblUnit();
@@ -40,16 +50,16 @@ namespace UnitConverter.Persistence
             return false;
         }
 
-        public static double ConvertToMasterUnit(string inputUnit, double inputValue, out string masterUnit)
+        public static double ConvertToMasterUnit(string inputUnit, double fromValue, out string masterUnit)
         {
             double conversion = getMaster(inputUnit, out masterUnit);
-            return conversion * inputValue;
+            return conversion * fromValue;
         }
 
-        private static double getMaster(string inputUnit, out string masterUnit)
+        private static double getMaster(string fromUnit, out string masterUnit)
         {
             var db = new UnitConverterDbEntities();
-            var unitsList = db.tblUnits.FirstOrDefault(p => p.UnitName == inputUnit);
+            var unitsList = db.tblUnits.FirstOrDefault(p => p.UnitName == fromUnit);
 
             if (unitsList != null)
             {
@@ -60,18 +70,25 @@ namespace UnitConverter.Persistence
             return 2;
         }
 
-        public static double ConvertToOutputUnit(string masterUnit, double convertedMasterValue, string outputUnit)
+        public static double ConvertToOutputUnit(string masterUnit, double convertedMasterValue, string toUnit)
         {
             string checkMaster = "";
-            double conversion = ConvertToMasterUnit(outputUnit, 1, out checkMaster);
+            double conversion = ConvertToMasterUnit(toUnit, 1, out checkMaster);
             if(checkMaster == masterUnit) {
                 return convertedMasterValue / conversion;
             }
             else
             {
-                return 1;
+                return -1;
             }
 
+        }
+
+        public static List<string> GetUnitsForRadio()
+        {
+            var db = new UnitConverterDbEntities();
+            var unitsList = db.tblUnits.OrderBy(p => p.MasterUnit).Select(p => p.UnitName).ToList();
+            return unitsList;
         }
 
     }

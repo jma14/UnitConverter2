@@ -31,58 +31,22 @@ namespace UnitConverter.Web {
         protected global::System.Web.UI.WebControls.TextBox inputValueTextBox;
         
         /// <summary>
-        /// mInputRadioButton control.
+        /// fromUnitsRadioList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton mInputRadioButton;
+        protected global::System.Web.UI.WebControls.RadioButtonList fromUnitsRadioList;
         
         /// <summary>
-        /// mmInputRadioButton control.
+        /// toUnitsRadioList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton mmInputRadioButton;
-        
-        /// <summary>
-        /// inInputRadioButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton inInputRadioButton;
-        
-        /// <summary>
-        /// mOutputRadioButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton mOutputRadioButton;
-        
-        /// <summary>
-        /// mmOutputRadioButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton mmOutputRadioButton;
-        
-        /// <summary>
-        /// inOutputRadioButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton inOutputRadioButton;
+        protected global::System.Web.UI.WebControls.RadioButtonList toUnitsRadioList;
         
         /// <summary>
         /// okButton control.
